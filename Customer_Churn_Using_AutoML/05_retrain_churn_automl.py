@@ -14,7 +14,7 @@
 from databricks.feature_store import FeatureStoreClient
 
 # Set config for database name, file paths, and table names
-feature_table = 'ibm_telco_churn.churn_features'
+feature_table = 'customer_info.churn_features'
 
 fs = FeatureStoreClient()
 
@@ -25,7 +25,7 @@ features = fs.read_table(feature_table)
 import databricks.automl
 model = databricks.automl.classify(features, 
                                    target_col = "churn",
-                                   data_dir= "dbfs:/tmp/rafi.kurlansik/",
+                                   data_dir= "dbfs:/tmp/snehil.pandey/",
                                    timeout_minutes=5) 
 
 # COMMAND ----------
@@ -41,10 +41,10 @@ from mlflow.tracking.client import MlflowClient
 client = MlflowClient()
 
 run_id = model.best_trial.mlflow_run_id
-model_name = "hhar_churn"
+model_name = "customer_churn"
 model_uri = f"runs:/{run_id}/model"
 
-client.set_tag(run_id, key='db_table', value='ibm_telco_churn.churn_features')
+client.set_tag(run_id, key='db_table', value='customer_info.churn_features')
 client.set_tag(run_id, key='demographic_vars', value='seniorCitizen,gender_Female')
 
 model_details = mlflow.register_model(model_uri, model_name)

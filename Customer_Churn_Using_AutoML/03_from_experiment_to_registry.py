@@ -1,5 +1,11 @@
 # Databricks notebook source
 # MAGIC %md
+# MAGIC # Notebook Links
+# MAGIC - AWS demo.cloud: [https://demo.cloud.databricks.com/#notebook/10166911](https://demo.cloud.databricks.com/#notebook/10166911)
+
+# COMMAND ----------
+
+# MAGIC %md
 # MAGIC ### Managing the model lifecycle with Model Registry
 # MAGIC 
 # MAGIC <img src="https://github.com/RafiKurlansik/laughing-garbanzo/blob/main/step4.png?raw=true">
@@ -45,11 +51,11 @@ from mlflow.tracking import MlflowClient
 
 client = MlflowClient()
 
-run_id = '0e6044845e604fb5b638d78005aa1bb0' # replace with your own run ID, etc
-model_name = "hhar_churn"
+run_id = 'f989f8e6b9d0464c80bc9632bddef71c' # replace with your own run ID, etc
+model_name = "customer_churn"
 model_uri = f"runs:/{run_id}/model"
 
-client.set_tag(run_id, key='db_table', value='ibm_telco_churn.churn_features')
+client.set_tag(run_id, key='db_table', value='customer_info.churn_features')
 client.set_tag(run_id, key='demographic_vars', value='seniorCitizen,gender_Female')
 
 model_details = mlflow.register_model(model_uri, model_name)
@@ -57,8 +63,8 @@ model_details = mlflow.register_model(model_uri, model_name)
 # COMMAND ----------
 
 
-run_id = 'd38152c00ddd4f048eddcb05b3dad31d'
-run_info = client.get_run('d38152c00ddd4f048eddcb05b3dad31d')
+run_id = 'f989f8e6b9d0464c80bc9632bddef71c'
+run_info = client.get_run('f989f8e6b9d0464c80bc9632bddef71c')
 
 run_info.info
 

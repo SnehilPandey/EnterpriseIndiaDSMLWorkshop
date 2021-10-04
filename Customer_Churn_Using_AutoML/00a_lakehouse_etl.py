@@ -1,4 +1,8 @@
 # Databricks notebook source
+# MAGIC %md In this notebook, we will prepare a publicly available dataset for analysis. This data will then serve as the basis for some exploratory analysis and modeling intended to assist us in understanding and predicting customer churn.
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC ### Setup
 # MAGIC 
@@ -6,6 +10,11 @@
 
 # COMMAND ----------
 
+# MAGIC %md <img src="https://databricks.com/wp-content/uploads/2021/02/telco-accel-blog-2-new.png" width="1500">
+
+# COMMAND ----------
+
+# DBTITLE 1,Download Dataset
 # MAGIC %sh
 # MAGIC wget https://raw.githubusercontent.com/IBM/telco-customer-churn-on-icp4d/master/data/Telco-Customer-Churn.csv
 
@@ -29,7 +38,7 @@ from pyspark.sql.functions import col, when
 from pyspark.sql.types import StructType,StructField,DoubleType, StringType, IntegerType, FloatType
 
 # Set config for database name, file paths, and table names
-database_name = 'ibm_telco_churn'
+database_name = 'customer_info'
 
 # Move file from driver to DBFS
 user = dbutils.notebook.entry_point.getDbutils().notebook().getContext().tags().apply('user')
@@ -110,6 +119,13 @@ _ = spark.sql('''
   USING DELTA 
   LOCATION '{}'
   '''.format(database_name,bronze_tbl_name,bronze_tbl_path))
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC SELECT count(customerID),internetService
+# MAGIC FROM customer_info.bronze_customers
+# MAGIC GROUP BY internetService
 
 # COMMAND ----------
 

@@ -14,7 +14,7 @@
 # COMMAND ----------
 
 # Read into Spark
-telcoDF = spark.table("ibm_telco_churn.bronze_customers")
+telcoDF = spark.table("customer_info.bronze_customers")
 
 display(telcoDF)
 
@@ -70,13 +70,13 @@ fs = FeatureStoreClient()
 churn_features_df = compute_churn_features(telcoDF)
 
 churn_feature_table = fs.create_feature_table(
-  name='snehil.churn_features',
+  name='customer_info.churn_features',
   keys='customerID',
   schema=churn_features_df.spark.schema(),
   description='These features are derived from the ibm_telco_churn.bronze_customers table in the lakehouse.  I created dummy variables for the categorical columns, cleaned up their names, and added a boolean flag for whether the customer churned or not.  No aggregations were performed.'
 )
 
-fs.write_table(df=churn_features_df.to_spark(), name='snehil.churn_features', mode='overwrite')
+fs.write_table(df=churn_features_df.to_spark(), name='customer_info.churn_features', mode='overwrite')
 
 # COMMAND ----------
 
